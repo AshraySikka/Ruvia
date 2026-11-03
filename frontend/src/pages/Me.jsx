@@ -184,7 +184,7 @@ function Reminders() {
       <div className="stack-lg">
         <div className="stack"><ReminderFields p={p} setP={setP} /><button className="btn block" onClick={async () => { await update(p); toast("Reminders saved"); }}>Save times</button></div>
         <div className="list">
-          {[["water_reminders", "Water nudges", "Only when you are behind for the time of day"], ["followups_enabled", "Symptom follow-ups", "I check back after you log a symptom"], ["cycle_notifications", "Period reminders", "Heads up and on the day"], ["weekly_summary", "Weekly summary", "Sunday evening"]].map(([k, t, s]) => (
+          {[["water_reminders", "Water nudges", "Only when you are behind for the time of day"], ["followups_enabled", "Symptom follow-ups", "I check back after you log a symptom"], ["cycle_notifications", "Period reminders", "Heads up and on the day"], ["weekly_summary", "Weekly summary", "Sunday evening"]].filter(([k]) => k !== "cycle_notifications" || user.track_cycle).map(([k, t, s]) => (
             <div key={k} className="list-row"><div className="grow"><div style={{ fontWeight: 700 }}>{t}</div><div className="small muted">{s}</div></div><Toggle checked={user[k]} onChange={flip(k)} label={t} /></div>
           ))}
           {user.water_reminders && (

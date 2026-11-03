@@ -154,6 +154,10 @@ button.chip { cursor: pointer; }
 .input, .textarea, .select { width: 100%; min-height: 50px; padding: 12px 16px; border-radius: var(--r-md); background: var(--sheet);
   border: 1.5px solid var(--rule); outline: none; transition: border-color .15s; font-size: 16px; }
 .input:focus, .textarea:focus, .select:focus { border-color: var(--euc); }
+/* Date and time boxes: keep them inside their column on phones */
+.row > .field.grow { flex: 1 1 0; min-width: 0; align-self: flex-start; }
+.input[type="time"], .input[type="date"] { -webkit-appearance: none; appearance: none; display: block; min-width: 0; max-width: 100%; text-align: left; line-height: 1.2; }
+.input[type="time"]::-webkit-date-and-time-value, .input[type="date"]::-webkit-date-and-time-value { text-align: left; min-height: 1.2em; }
 .textarea { resize: none; min-height: 90px; line-height: 1.45; }
 .otp { letter-spacing: .5em; text-align: center; font-family: var(--display); font-size: 26px; font-weight: 700; }
 .error { color: var(--danger); font-size: 14.5px; }
