@@ -1,0 +1,13 @@
+Django>=5.2,<5.3
+djangorestframework>=3.15,<4
+djangorestframework-simplejwt>=5.3,<6
+django-cors-headers>=4.4,<5
+dj-database-url>=2.2,<4
+psycopg[binary]>=3.2,<4
+gunicorn>=23,<24
+whitenoise>=6.7,<7
+requests>=2.32,<3
+pywebpush>=2.0,<3
+cryptography>=43
+reportlab>=4.2,<5
+python-dotenv>=1.0,<2

@@ -1,0 +1,63 @@
+# Render Blueprint. Render > New > Blueprint, pick this repo.
+# Secrets marked sync: false are typed in by you during setup.
+envVarGroups:
+  - name: ruvia-shared
+    envVars:
+      - key: DEBUG
+        value: "false"
+      - key: PYTHON_VERSION
+        value: "3.12.7"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false
+      - key: FIELD_ENCRYPTION_KEY
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+      - key: SENDGRID_API_KEY
+        sync: false
+      - key: SENDGRID_FROM_EMAIL
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: VAPID_PUBLIC_KEY
+        sync: false
+      - key: VAPID_PRIVATE_KEY
+        sync: false
+      - key: VAPID_SUBJECT
+        sync: false
+      - key: CRON_SECRET
+        generateValue: true
+
+services:
+  - type: web
+    name: ruvia-api
+    runtime: python
+    rootDir: backend
+    plan: free
+    buildCommand: ./build.sh
+    startCommand: gunicorn config.wsgi:application --workers 2 --timeout 90
+    healthCheckPath: /health/
+    envVars:
+      - fromGroup: ruvia-shared
+      - key: SEED_DEMO
+        value: "true"
+      - key: DEMO_PASSWORD
+        value: RuviaDemo2026!
+
+  # Paid on Render. If you would rather keep things free, delete this block and use
+  # the GitHub Actions schedule in .github/workflows/reminders.yml instead.
+  - type: cron
+    name: ruvia-reminders
+    runtime: python
+    rootDir: backend
+    schedule: "*/10 * * * *"
+    buildCommand: pip install -r requirements.txt
+    startCommand: python manage.py run_scheduler
+    envVars:
+      - fromGroup: ruvia-shared
