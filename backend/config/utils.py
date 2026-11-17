@@ -57,8 +57,22 @@ def user_now(user):
     return timezone.now().astimezone(user_tz(user))
 
 
+DEMO_EMAILS = ("demoruvia@yopmail.com", "demo1ruvia@yopmail.com")
+
+
+def demo_today(user):
+    """The two demo accounts live on a fixed, older day so every screen has entries. Everyone else gets None."""
+    if getattr(user, "email", None) not in DEMO_EMAILS:
+        return None
+    try:
+        from health.models import DemoClock
+        return DemoClock.objects.filter(user_id=user.id).values_list("today", flat=True).first()
+    except Exception:
+        return None
+
+
 def user_today(user):
-    return user_now(user).date()
+    return demo_today(user) or user_now(user).date()
 
 
 def local_dt(user, day, at=time(9, 0)):

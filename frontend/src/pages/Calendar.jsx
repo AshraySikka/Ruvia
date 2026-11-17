@@ -11,6 +11,7 @@ export default function CalendarPage() {
   const loc = useLocation();
   const nav = useNavigate();
   const [month, setMonth] = useState(() => startOfMonth(new Date()));
+  const [today, setToday] = useState(() => new Date());
   const [data, setData] = useState(null);
   const openDay = new URLSearchParams(loc.search).get("day");
 
@@ -20,10 +21,20 @@ export default function CalendarPage() {
   }, [month]);
   useEffect(() => { load(); }, [load]);
 
+  // The server decides what "today" is, so the demo accounts open on their older day.
+  useEffect(() => {
+    api("/today/").then((t) => {
+      if (!t?.date) return;
+      const server = parseISO(t.date);
+      setToday(server);
+      if (!openDay && format(server, "yyyy-MM-dd") !== format(new Date(), "yyyy-MM-dd")) setMonth(startOfMonth(server));
+    }).catch(() => {});
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   const first = startOfMonth(month);
   const lead = (getDay(first) + 6) % 7; // weeks start Monday
-  const todayStr = format(new Date(), "yyyy-MM-dd");
-  const canNext = !isAfter(addMonths(month, 1), endOfMonth(new Date()));
+  const todayStr = format(today, "yyyy-MM-dd");
+  const canNext = !isAfter(addMonths(month, 1), endOfMonth(today));
 
   return (
     <div className="page">

@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 import { motion } from "framer-motion";
 import { Bell, CalendarClock, ChevronRight, CloudRain, Flame, Keyboard, Sparkles, Target } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
@@ -74,7 +74,7 @@ export default function Today() {
     <div className="page">
       <header className="row between" style={{ marginBottom: 20 }}>
         <div>
-          <div className="faint">{format(new Date(), "EEEE, MMMM d")}</div>
+          <div className="faint">{format(t.date ? parseISO(t.date) : new Date(), "EEEE, MMMM d")}</div>
           <h1 style={{ fontSize: 27 }}>{t.greeting}</h1>
         </div>
         <Link to="/inbox" className="icon-btn" aria-label={`Inbox, ${t.unread} unread`}>
