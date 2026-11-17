@@ -116,29 +116,6 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name="DemoClock",
-            fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("today", models.DateField()),
-                (
-                    "user",
-                    models.OneToOneField(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        related_name="demo_clock",
-                        to=settings.AUTH_USER_MODEL,
-                    ),
-                ),
-            ],
-        ),
-        migrations.CreateModel(
             name="EmergencyCard",
             fields=[
                 (
